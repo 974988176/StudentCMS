@@ -15,6 +15,11 @@ class Login extends Controller
 
     public function store(Request $request)
     {
+        // 验证码验证
+        $this->validate($request, [
+            'captcha' => 'required|captcha'
+        ]);
+
         $credentials = $request->only('uid', 'password');
         if (Auth::attempt($credentials)) {
             return $this->success('登录成功');
@@ -40,15 +45,11 @@ class Login extends Controller
 
     public function repwd(Request $request)
     {
-        $message = [
-            'newpass.between' => '密码长度必须是6到12位',
-        ];
         $validated = $request->validate(
             [
                 'oldpass' => 'required',
                 'newpass' => 'required|confirmed|between:6,12',
-            ],
-            $message
+            ]
         );
         $user = Auth::user();
         if (Hash::check($validated['oldpass'], $user->password)) {

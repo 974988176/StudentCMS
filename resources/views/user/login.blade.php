@@ -12,25 +12,109 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="{{asset('favicon.ico')}}">
     <link rel="stylesheet" href="{{asset('lib/layui-v2.5.5/css/layui.css')}}" media="all">
-    <!--[if lt IE 9]>
+<!--[if lt IE 9]>
     <script src="{{asset('js/html5.min.js')}}"></script>
     <script src="{{asset('js/respond.min.js')}}"></script>
     <![endif]-->
     <style>
-        html, body {width: 100%;height: 100%;overflow: hidden}
-        body {background: #1E9FFF;}
-        body:after {content:'';background-repeat:no-repeat;background-size:cover;-webkit-filter:blur(3px);-moz-filter:blur(3px);-o-filter:blur(3px);-ms-filter:blur(3px);filter:blur(3px);position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;}
-        .layui-container {width: 100%;height: 100%;overflow: hidden}
-        .admin-login-background {width:360px;height:300px;position:absolute;left:50%;top:40%;margin-left:-180px;margin-top:-100px;}
-        .logo-title {text-align:center;letter-spacing:2px;padding:14px 0;}
-        .logo-title h1 {color:#1E9FFF;font-size:25px;font-weight:bold;}
-        .login-form {background-color:#fff;border:1px solid #fff;border-radius:3px;padding:14px 20px;box-shadow:0 0 8px #eeeeee;}
-        .login-form .layui-form-item {position:relative;}
-        .login-form .layui-form-item label {position:absolute;left:1px;top:1px;width:38px;line-height:36px;text-align:center;color:#d2d2d2;}
-        .login-form .layui-form-item input {padding-left:36px;}
-        .captcha {width:60%;display:inline-block;}
-        .captcha-img {display:inline-block;width:34%;float:right;}
-        .captcha-img img {height:34px;border:1px solid #e6e6e6;height:36px;width:100%;}
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden
+        }
+
+        body {
+            background: #1E9FFF;
+        }
+
+        body:after {
+            content: '';
+            background-repeat: no-repeat;
+            background-size: cover;
+            -webkit-filter: blur(3px);
+            -moz-filter: blur(3px);
+            -o-filter: blur(3px);
+            -ms-filter: blur(3px);
+            filter: blur(3px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        .layui-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden
+        }
+
+        .admin-login-background {
+            width: 360px;
+            height: 300px;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            margin-left: -180px;
+            margin-top: -100px;
+        }
+
+        .logo-title {
+            text-align: center;
+            letter-spacing: 2px;
+            padding: 14px 0;
+        }
+
+        .logo-title h1 {
+            color: #1E9FFF;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .login-form {
+            background-color: #fff;
+            border: 1px solid #fff;
+            border-radius: 3px;
+            padding: 14px 20px;
+            box-shadow: 0 0 8px #eeeeee;
+        }
+
+        .login-form .layui-form-item {
+            position: relative;
+        }
+
+        .login-form .layui-form-item label {
+            position: absolute;
+            left: 1px;
+            top: 1px;
+            width: 38px;
+            line-height: 36px;
+            text-align: center;
+            color: #d2d2d2;
+        }
+
+        .login-form .layui-form-item input {
+            padding-left: 36px;
+        }
+
+        .captcha {
+            width: 60%;
+            display: inline-block;
+        }
+
+        .captcha-img {
+            display: inline-block;
+            width: 34%;
+            float: right;
+        }
+
+        .captcha-img img {
+            height: 34px;
+            border: 1px solid #e6e6e6;
+            height: 36px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -43,14 +127,26 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username" for="username"></label>
-                    <input type="text" name="uid" lay-verify="required|account" placeholder="学号" autocomplete="off" class="layui-input" value="admin">
+                    <input type="text" name="uid" lay-verify="required|account" placeholder="学号" autocomplete="off"
+                           class="layui-input" value="admin">
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password" for="password"></label>
-                    <input type="password" name="password" lay-verify="required|password" placeholder="密码" autocomplete="off" class="layui-input" value="admin">
+                    <input type="password" name="password" lay-verify="required|password" placeholder="密码"
+                           autocomplete="off" class="layui-input" value="admin">
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn layui-btn-normal layui-btn-fluid" lay-submit="" lay-filter="login">登 入</button>
+                    <label class="layui-icon layui-icon-vercode" for="captcha"></label>
+                    <input type="text" name="captcha" lay-verify="required|captcha" placeholder="验证码" autocomplete="off"
+                           class="layui-input verification captcha">
+                    <div class="captcha-img">
+                        <img id="captchaPic" src="{{captcha_src()}}" style="cursor: pointer" onclick="this.src='{{captcha_src()}}'+Math.random()">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn layui-btn-normal layui-btn-fluid" lay-submit=""
+                            lay-filter="login">登 录
+                    </button>
                 </div>
             </form>
         </div>
@@ -59,7 +155,7 @@
 <script src="{{asset('lib/jquery-3.4.1/jquery-3.4.1.min.js')}}"></script>
 <script src="{{asset('lib/layui-v2.5.5/layui.js')}}" charset="UTF-8"></script>
 <script src="{{asset('lib/jq-module/jquery.particleground.min.js')}}" charset="UTF-8"></script>
-{{--<script src="{{asset('js/hua.js')}}" charset="UTF-8"></script>--}}
+<script src="{{asset('js/csrf.js')}}" charset="UTF-8"></script>
 
 <script>
     layui.use(['form'], function () {
@@ -70,10 +166,10 @@
         if (top.location != self.location) top.location = self.location;
 
         // 粒子线条背景
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.layui-container').particleground({
-                dotColor:'#7ec7fd',
-                lineColor:'#7ec7fd'
+                dotColor: '#7ec7fd',
+                lineColor: '#7ec7fd'
             });
         });
 
@@ -88,14 +184,18 @@
                 layer.msg('密码不能为空');
                 return false;
             }
+            if (data.captcha == '') {
+                layer.msg('验证码不能为空');
+                return false;
+            }
 
             $.ajax({
                 type: 'post',
                 url: "{{ route('login.store') }}",
                 data: data,
                 headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 success: function (res) {
                     if (res.status === 'success') {
                         layer.msg(res.msg, {icon: 6, time: 1000}, function () {

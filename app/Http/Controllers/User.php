@@ -122,10 +122,6 @@ class User extends Controller
      */
     public function store(Request $request)
     {
-        $message = [
-            'uid.unique' => '错误,已存在相同学号',
-        ];
-
         $request->validate(
             [
                 'uid' => 'required|unique:users',
@@ -134,8 +130,7 @@ class User extends Controller
                 'sysid' => 'required',
                 'birth' => 'required',
                 'minzu' => 'required',
-            ],
-            $message
+            ]
         );
         if (Gate::denies('isAdmin')) {
             return $this->fail('您无权添加学生');

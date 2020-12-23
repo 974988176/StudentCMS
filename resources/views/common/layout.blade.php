@@ -20,6 +20,7 @@
 
 <script src="{{asset('lib/layui-v2.5.5/layui.js')}}" charset="UTF-8"></script>
 <script src="{{asset('js/lay-config.js')}}" charset="utf-8"></script>
+<script src="{{asset('js/csrf.js')}}"></script>
 <script src="{{asset('js/hua.js')}}"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 @yield('js')
